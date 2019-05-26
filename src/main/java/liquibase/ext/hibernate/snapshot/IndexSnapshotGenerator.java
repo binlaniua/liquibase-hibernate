@@ -33,12 +33,15 @@ public class IndexSnapshotGenerator extends HibernateSnapshotGenerator {
             Iterator columnIterator = hibernateIndex.getColumnIterator();
             while (columnIterator.hasNext()) {
                 org.hibernate.mapping.Column hibernateColumn = (org.hibernate.mapping.Column) columnIterator.next();
-                index.getColumns().add(new Column(hibernateColumn.getName()).setRelation(table));
+                index.getColumns()
+                     .add(new Column(hibernateColumn.getName()).setRelation(table));
             }
 
-            if (index.getColumnNames().equalsIgnoreCase(((Index) example).getColumnNames())) {
+            if (index.getColumnNames()
+                     .equalsIgnoreCase(((Index) example).getColumnNames())) {
                 LOG.info("Found index " + index.getName());
-                table.getIndexes().add(index);
+                table.getIndexes()
+                     .add(index);
                 return index;
             }
         }
@@ -48,7 +51,8 @@ public class IndexSnapshotGenerator extends HibernateSnapshotGenerator {
 
     @Override
     protected void addTo(DatabaseObject foundObject, DatabaseSnapshot snapshot) throws DatabaseException, InvalidExampleException {
-        if (!snapshot.getSnapshotControl().shouldInclude(Index.class)) {
+        if (!snapshot.getSnapshotControl()
+                     .shouldInclude(Index.class)) {
             return;
         }
         if (foundObject instanceof Table) {
@@ -66,10 +70,13 @@ public class IndexSnapshotGenerator extends HibernateSnapshotGenerator {
                 Iterator columnIterator = hibernateIndex.getColumnIterator();
                 while (columnIterator.hasNext()) {
                     org.hibernate.mapping.Column hibernateColumn = (org.hibernate.mapping.Column) columnIterator.next();
-                    index.getColumns().add(new Column(hibernateColumn.getName()).setRelation(table));
+                    index.getColumns()
+                         .add(new Column(hibernateColumn.getName()).setRelation(table));
+                    index.setUnique(hibernateColumn.isUnique());
                 }
                 LOG.info("Found index " + index.getName());
-                table.getIndexes().add(index);
+                table.getIndexes()
+                     .add(index);
             }
         }
     }
